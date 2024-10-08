@@ -1,19 +1,19 @@
 from fastapi import APIRouter,Depends
 from sqlalchemy.orm import Session
-from app.routers.users.model.userMd import UserBase as UserValidator
-from app.routers.users.schema.userDb import UserSchema
+from app.routers.users.model.userMd import UserValidator
+from app.routers.users.schema.userDb import User
 from app.db.database import get_db
 
 router = APIRouter()
 
 @router.get("/users",response_model=list[UserValidator])
 def read_users(db: Session = Depends(get_db)):
-    users = db.query(UserSchema).all()
+    users = db.query(User).all()
     return users
 
 @router.post("/user/create", response_model=UserValidator)
 def create_user(user: UserValidator, db: Session = Depends(get_db)):
-    db_user = UserSchema(**user.dict())
+    db_user = User(**user.dict())
     db.add(db_user)
     db.commit()
     db.refresh(db_user)
@@ -21,7 +21,7 @@ def create_user(user: UserValidator, db: Session = Depends(get_db)):
 
 @router.put("/user/edit/{user_id}", response_model=UserValidator)
 def edit_user(user_id: int, user: UserValidator, db: Session = Depends(get_db)):
-    db_user = db.query(UserSchema).filter(UserSchema.user_id == user_id).first()
+    db_user = db.query(User).filter(User.user_id == user_id).first()
     if db_user is None:
         return {"error": "Usuario no encontrado"}
     for key, value in user.dict().items():
@@ -32,7 +32,7 @@ def edit_user(user_id: int, user: UserValidator, db: Session = Depends(get_db)):
 
 @router.delete("/user/delete/{user_id}", response_model=dict)
 def delete_user(user_id: int, db: Session = Depends(get_db)):
-    db_user = db.query(UserSchema).filter(UserSchema.user_id == user_id).first()
+    db_user = db.query(User).filter(User.user_id == user_id).first()
     if db_user is None:
         return {"error": "Usuario no encontrado"}
     db.delete(db_user)
@@ -41,15 +41,15 @@ def delete_user(user_id: int, db: Session = Depends(get_db)):
 
 @router.get("/user/{user_id}" ,response_model=UserValidator)
 def getUserbyId(user_id: int, db: Session = Depends(get_db)):
-    user = db.query(UserSchema).filter(UserSchema.user_id == user_id).first()
+    user = db.query(User).filter(User.user_id == user_id).first()
     return user
 
 @router.get("/user/get/{name}" ,response_model=UserValidator)
 def getUserbyName(name: str, db: Session = Depends(get_db)):
-    user = db.query(UserSchema).filter(UserSchema.user_name == name).first()
+    user = db.query(User).filter(User.user_name == name).first()
     return user
 
 @router.get("/user/tipo/{tipo}" ,response_model=list[UserValidator])
 def getUserbyTipo(tipo: int, db: Session = Depends(get_db)):
-    users = db.query(UserSchema).filter(UserSchema.user_type == tipo).all()
+    users = db.query(User).filter(User.user_type == tipo).all()
     return users

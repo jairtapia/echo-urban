@@ -1,21 +1,19 @@
+
 from sqlalchemy import Column, SmallInteger, String, Date, ForeignKey
-from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import relationship
+from app.db.database import Base
 
-Base = declarative_base()
-
-class UserSchema(Base):
-    __tablename__ = 'railway.User'
-    user_id = Column(SmallInteger, primary_key=True, index=True)
-    user_name = Column(String(10), nullable=False)
-    last_name_f = Column(String(15), nullable=False)
-    last_name_m = Column(String(15), nullable=False)
-    registration_date = Column(Date, nullable=False)
-    user_type = Column(SmallInteger, ForeignKey('railway.Usertype.user_type_id'), nullable=False)
-    usertype = relationship("UserType", back_populates="users")
 
 class UserType(Base):
-    __tablename__ = 'railway.Usertype'
+    __tablename__ = 'UserType'
     user_type_id = Column(SmallInteger, primary_key=True, index=True)
-    type_name = Column(String(15), nullable=False)
-    users = relationship("UserSchema", back_populates="Usertype")
+    user_type_name = Column(String(50), nullable=False)
+class User(Base):
+    __tablename__ = 'User'
+    user_id = Column(SmallInteger, primary_key=True, index=True)
+    user_name = Column(String(50), nullable=False)
+    last_name_f = Column(String(50), nullable=True)
+    last_name_m = Column(String(50), nullable=True)
+    registration_date = Column(Date, nullable=False)  # O el tipo que necesites
+    user_type = Column(SmallInteger, ForeignKey("UserType.user_type_id"), nullable=False)
+

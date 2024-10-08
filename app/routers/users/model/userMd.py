@@ -2,8 +2,7 @@ from pydantic import BaseModel
 from datetime import date
 from typing import Optional
 
-class UserBase(BaseModel):
-    user_id:int
+class UserValidator(BaseModel):
     user_name: str
     last_name_f: str
     last_name_m: str
