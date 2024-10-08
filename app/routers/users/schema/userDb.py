@@ -5,7 +5,7 @@ from sqlalchemy.orm import relationship
 Base = declarative_base()
 
 class UserSchema(Base):
-    __tablename__ = 'user'
+    __tablename__ = 'railway.User'
     user_id = Column(SmallInteger, primary_key=True, index=True)
     user_name = Column(String(10), nullable=False)
     last_name_f = Column(String(15), nullable=False)
@@ -15,7 +15,7 @@ class UserSchema(Base):
     usertype = relationship("UserType", back_populates="users")
 
 class UserType(Base):
-    __tablename__ = 'usertype'
+    __tablename__ = 'railway.Usertype'
     user_type_id = Column(SmallInteger, primary_key=True, index=True)
     type_name = Column(String(15), nullable=False)
     users = relationship("UserSchema", back_populates="usertype")
