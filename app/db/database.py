@@ -6,7 +6,7 @@ import os
 
 load_dotenv()
 
-DATABASE_URL = f"mysql+pymysql://{os.getenv('USER')}:{os.getenv('PWD')}@{os.getenv('HOST')}/{os.getenv('DB')}"
+DATABASE_URL = f"mysql+pymysql://{os.getenv('USER')}:{os.getenv('PWD')}@{os.getenv('HOST')}:{os.getenv('PORT')}/{os.getenv('DB')}"
 
 engine = create_engine(DATABASE_URL, echo=True)
 
