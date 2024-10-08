@@ -11,7 +11,7 @@ class UserSchema(Base):
     last_name_f = Column(String(15), nullable=False)
     last_name_m = Column(String(15), nullable=False)
     registration_date = Column(Date, nullable=False)
-    user_type = Column(SmallInteger, ForeignKey('Usertype.user_type_id'), nullable=False)
+    user_type = Column(SmallInteger, ForeignKey('railway.Usertype.user_type_id'), nullable=False)
     usertype = relationship("UserType", back_populates="users")
 
 class UserType(Base):
