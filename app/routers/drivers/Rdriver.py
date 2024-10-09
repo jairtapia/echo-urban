@@ -6,7 +6,7 @@ from app.routers.drivers.schema.Sdriver import Driver
 
 router = APIRouter()
 
-
+#solo para quitar algo
 @router.get("/driver/all",response_model=list[DriverValidator])
 def read_drivers(db: Session = Depends(get_db)):
     users = db.query(Driver).all()
